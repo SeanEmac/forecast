@@ -12,6 +12,11 @@ type Calc struct {
 	Term    int
 }
 
+type chartData struct {
+	Year int
+	Amt  int
+}
+
 func enableCors(w *http.ResponseWriter) {
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
 	(*w).Header().Set("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
@@ -42,9 +47,26 @@ func calculate(w http.ResponseWriter, r *http.Request) {
 	// Write response back in json format
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(c)
+	json.NewEncoder(w).Encode(createChartData(c))
 
 	fmt.Println("Calculation done")
+}
+
+func createChartData(c Calc) []chartData {
+	const currentYear = 2021
+	var yearlyAddition = c.Monthly * 12
+	var data = []chartData{}
+	sum := 0
+
+	for i := 0; i < c.Term+1; i++ {
+		sum += yearlyAddition
+
+		var gain = sum * c.Rate / 100
+		sum += gain
+
+		data = append(data, chartData{Year: currentYear + i, Amt: sum})
+	}
+	return data
 }
 
 func handleRequests() {

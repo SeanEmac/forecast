@@ -1,21 +1,6 @@
 import React, { PureComponent } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 
-const data = [
-  {
-    name: 2020,
-    amt: 1000,
-  },
-  {
-    name: 2021,
-    amt: 1500,
-  },
-  {
-    name: 2022,
-    amt: 2000,
-  },
-];
-
 class Chart extends PureComponent {
   constructor(props) {
     super(props);
@@ -31,7 +16,7 @@ class Chart extends PureComponent {
         <AreaChart
           width={500}
           height={400}
-          data={data}
+          data={this.props.data}
           margin={{
             top: 10,
             right: 30,
@@ -40,10 +25,10 @@ class Chart extends PureComponent {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
+          <XAxis dataKey="Year" />
           <YAxis />
           <Tooltip />
-          <Area type="monotone" dataKey="amt" stroke="#8884d8" fill="#8884d8" />
+          <Area type="monotone" dataKey="Amt" stroke="#8884d8" fill="#8884d8" />
         </AreaChart>
       </div>
     );

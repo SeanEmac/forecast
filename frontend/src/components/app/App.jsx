@@ -12,7 +12,7 @@ class App extends Component {
     this.rateChanged = this.rateChanged.bind(this);
     this.termChanged = this.termChanged.bind(this);
     this.state = {
-      responses: [],
+      chartData: [],
       monthly: 100,
       rate: 5,
       term: 40,
@@ -26,7 +26,6 @@ class App extends Component {
     this.setState({rate: newRate}, this.post);
   }
   termChanged(newTerm) {
-    console.log(newTerm)
     this.setState({term: newTerm}, this.post);
   }
 
@@ -44,15 +43,11 @@ class App extends Component {
 
     fetch('http://localhost:8080/calc', requestOptions)
       .then(response => response.json())
-      .then(data => this.setState(
-        prevState => ({
-          responses: [...prevState.responses, data]
-        })
-      ));
+      .then(data => this.setState({chartData: data}))
   }
 
   render() {
-    console.log(this.state.responses)
+    console.log(this.state.chartData)
     return (
       <div className="app">
         <Header />
@@ -64,9 +59,8 @@ class App extends Component {
           rateChanged={this.rateChanged}
           termChanged={this.termChanged}
         />
-        <Responses responses={this.state.responses} />
         <button onClick={this.post}>POST</button>
-        <Chart />
+        <Chart data={this.state.chartData}/>
       </div>
     );
   }
