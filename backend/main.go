@@ -7,9 +7,9 @@ import (
 )
 
 type Calc struct {
-	Monthly  int
-	Rate     int
-	Duration int
+	Monthly int
+	Rate    int
+	Term    int
 }
 
 func enableCors(w *http.ResponseWriter) {
